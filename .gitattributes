@@ -1,3 +1,1 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:aa5d77f137618abbef3c013d9d5365e53175c80037de0a0765de86b2bb3616be
-size 268
+.ipynb_checkpoints filter=lfs diff=lfs merge=lfs -text
