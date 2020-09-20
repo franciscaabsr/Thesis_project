@@ -58,11 +58,11 @@ for subj = 1:n_subjects
     
     % Input BOLD data 
     %path_data_in = ['/home/francisca/Documents/Tese/Implementation/Dataset/source_reconstructed_FC/fmri_connect_desikan/subj0' num2str(subj) '-7T'];
-    path_data_in = ['/home/francisca/Documents/Tese/Implementation/Dataset/source_reconstructed_FC/fmri_connect_destrieux/subj0' num2str(subj) '-7T'];
+    path_data_in = ['/home/francisca/Documents/Tese/Implementation/Dataset/source_reconstructed_FC/fmri_connect_desikan/subj0' num2str(subj) '-7T'];
     load([path_data_in '/timeseries_regr_wgm_globmean_filt0009008.mat'])
     
-    %BOLD = timeseries(19:86,:); %desikan atlas
-    BOLD = timeseries(13:160,:); %destrieux atlas
+    BOLD = timeseries(19:86,:); %desikan atlas
+    %BOLD = timeseries(13:160,:); %destrieux atlas
     
     % Load data referring the good and bad indices, identified in EEG, due to motion:
     load('/home/francisca/Documents/Tese/Implementation/Dataset/source_reconstructed_FC/eegepochs_brainstorm_manual_rejected.mat')
@@ -119,14 +119,28 @@ for subj = 1:n_subjects
     %end
     
     hrf_delay(subj).all = hrf_pars(2,:); 
-    hrf_delay(subj).mean = mean(hrf_pars(2,:));
+    hrf_delay(subj).median = median(hrf_pars(2,:));
     hrf_delay(subj).max = max(hrf_pars(2,:)); 
     hrf_delay(subj).min = min(hrf_pars(2,:));
     
 end
 
-save('/home/francisca/Documents/Tese/Implementation/HRF_delays_dstrx.mat', 'hrf_delay');
-save('/home/francisca/Documents/Tese/Implementation/event_bold_time_points_dstrx.mat', 'event_bold');
+save('/home/francisca/Documents/Tese/Implementation/HRF_delays_dsk.mat', 'hrf_delay');
+save('/home/francisca/Documents/Tese/Implementation/event_bold_time_points_dsk.mat', 'event_bold');
+
+%% Analyze distribution of hrf_delay values
+
+% plot histogram of hemodynamic response delay obtained, so as to observe
+% general tendency 
+
+for s=1:n_subjects
+    
+    figure;
+    plot(histfit(hrf_delay(s).all));
+    
+end
+
+
 
 
 %% Perform deconvolution of the BOLD signal
